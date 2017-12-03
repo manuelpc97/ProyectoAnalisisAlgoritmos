@@ -61,6 +61,8 @@ public class Principal extends javax.swing.JFrame {
         bt_addEdge = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         cb_target = new javax.swing.JComboBox<>();
+        tf_peso = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +76,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
+            .addGap(0, 555, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Vertice");
@@ -102,6 +104,8 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Peso");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,7 +122,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(tf_vertexName)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                                 .addComponent(bt_addEdge, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -128,8 +132,14 @@ public class Principal extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cb_source, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cb_target, 0, 118, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(26, 26, 26))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(45, 45, 45)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,10 +159,17 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_addEdge)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addComponent(cb_source, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cb_target, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(cb_source, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_target, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -168,6 +185,7 @@ public class Principal extends javax.swing.JFrame {
         vertexList = new ArrayList();
         edges = new ArrayList();
         vertexNames = new ArrayList();
+        myGraph = new Grafo();
         this.jInternalFrame1.getContentPane().add(component);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -180,6 +198,11 @@ public class Principal extends javax.swing.JFrame {
                         generatePosition(400), generatePosition(400), 80, 30);
                 vertexList.add(v1);
                 vertexNames.add(this.tf_vertexName.getText());
+                if(vertexList.size() == 1){
+                    myGraph.setVerticePrincipal(new Vertice(this.tf_vertexName.getText()));
+                }else{
+                    myGraph.addVertice(this.tf_vertexName.getText());
+                }
                 JOptionPane.showMessageDialog(this, "Vertice Creado", "Exito", JOptionPane.PLAIN_MESSAGE);
                 this.tf_vertexName.setText("");
             } finally {
@@ -200,8 +223,11 @@ public class Principal extends javax.swing.JFrame {
         if (!source.equals(target) && verifyEdges(source, target)) {
             component.getGraph().getModel().beginUpdate();
             try {
-                Object edge = component.getGraph().insertEdge(parent, null, "", source, target);
+                Object edge = component.getGraph().insertEdge(parent, this.tf_peso.getText(), this.tf_peso.getText(), source, target);
                 edges.add(edge);
+                myEdge = new Arista(myGraph.getVertexByValue(source.getValue().toString()), myGraph.getVertexByValue(target.getValue().toString()),
+                                    Integer.parseInt(this.tf_peso.getText()));
+                myGraph.addEdge(myGraph.getVertexByValue(source.getValue().toString()),myEdge);
             } finally {
                 component.getGraph().getModel().endUpdate();
                 JOptionPane.showMessageDialog(this, "Arista Creada", "Exito", JOptionPane.PLAIN_MESSAGE);
@@ -299,6 +325,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField tf_peso;
     private javax.swing.JTextField tf_vertexName;
     // End of variables declaration//GEN-END:variables
     mxGraph graph;
@@ -307,4 +335,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Object> vertexList;
     ArrayList<String> vertexNames;
     ArrayList<Object> edges;
+    Grafo myGraph = new Grafo();
+    Vertice myVertex = new Vertice();
+    Arista myEdge = new Arista();
 }
