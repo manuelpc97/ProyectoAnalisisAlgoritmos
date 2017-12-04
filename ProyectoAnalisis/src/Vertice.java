@@ -85,7 +85,27 @@ public class Vertice {
         }
         return retorno;
     }
+    
+    public ArrayList<Vertice> getNeighbors(){
+        ArrayList<Vertice> retorno = new ArrayList();
+        
+        for(int i = 0; i < this.aristas.size(); i++){
+            retorno.add(this.aristas.get(i).getDestino());
+        }
+        
+        return retorno;
+    }
 
+    public ArrayList<Vertice> getNeighborsAndMe(){
+        ArrayList<Vertice> retorno = new ArrayList();
+        retorno.add(this);
+        
+        for(int i = 0; i < this.aristas.size(); i++){
+            retorno.add(this.aristas.get(i).getDestino());
+        }
+        
+        return retorno;
+    }
     @Override
     public String toString() {
         return value + "";

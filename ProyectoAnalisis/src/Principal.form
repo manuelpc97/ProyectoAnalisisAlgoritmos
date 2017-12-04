@@ -45,15 +45,23 @@
                               <Component id="bt_addVertex" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="cb_source" pref="118" max="32767" attributes="0"/>
-                                  <Component id="cb_target" max="32767" attributes="0"/>
-                                  <Component id="cb_TSP" alignment="1" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="bt_TSP" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tf_peso" min="-2" pref="68" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="bt_complemento" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="cb_source" pref="118" max="32767" attributes="0"/>
+                                          <Component id="cb_target" max="32767" attributes="0"/>
+                                          <Component id="cb_TSP" alignment="1" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="bt_TSP" min="-2" max="-2" attributes="0"/>
+                                          <Component id="tf_peso" min="-2" pref="68" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
@@ -110,6 +118,8 @@
                   <Component id="bt_TSP" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cb_TSP" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+              <Component id="bt_complemento" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -129,7 +139,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="587" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="595" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -214,6 +224,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_complemento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Complemento"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bt_complementoMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

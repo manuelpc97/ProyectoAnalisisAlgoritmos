@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
  * @author manuelpc97
  */
 public class Grafo {
+
     Vertice verticePrincipal;
     ArrayList<Vertice> todosVertices;
 
@@ -122,17 +123,83 @@ public class Grafo {
             }
         }
     }
-    
-    public Vertice getVertexByValue(String toCompare){
-        if(this.verticePrincipal.getValue().toString().equals(toCompare)){
+
+    public Vertice getVertexByValue(String toCompare) {
+        if (this.verticePrincipal.getValue().toString().equals(toCompare)) {
             return verticePrincipal;
-        }else{
-            for(int i = 0; i < this.todosVertices.size(); i++){
-                if(this.todosVertices.get(i).getValue().toString().equals(toCompare)){
+        } else {
+            for (int i = 0; i < this.todosVertices.size(); i++) {
+                if (this.todosVertices.get(i).getValue().toString().equals(toCompare)) {
                     return this.todosVertices.get(i);
                 }
             }
         }
         return new Vertice(-1);
+    }
+
+    public Grafo getComplement() {
+        Grafo complement = new Grafo();
+        complement.setVerticePrincipal(new Vertice(verticePrincipal.getValue().toString()));
+        ArrayList<Vertice> allVertex = this.getTodosVertices();
+        ArrayList<Vertice> neighbors;
+        ArrayList<Vertice> notNeighbors;
+        Vertice vertex = new Vertice();
+        Vertice vertex2 = new Vertice();
+        Arista edge = new Arista();
+
+        for (int i = 0; i < this.todosVertices.size(); i++) {
+            complement.addVertice(this.todosVertices.get(i).getValue().toString());
+        }
+
+        for (int i = 0; i < allVertex.size(); i++) {
+            neighbors = allVertex.get(i).getNeighbors();
+            notNeighbors = getNotNeighbors(allVertex, neighbors);
+            notNeighbors.remove(allVertex.get(i));
+
+            for (int k = 0; k < notNeighbors.size(); k++) {
+                vertex = complement.getVertexByValue(allVertex.get(i).getValue().toString());
+                vertex2 = complement.getVertexByValue(notNeighbors.get(k).getValue().toString());
+                edge = new Arista(vertex, vertex2, 0);
+                complement.addEdge(vertex, edge);
+            }
+        }
+
+        return complement;
+    }
+
+    public ArrayList<Vertice> getNotNeighbors(ArrayList<Vertice> allVertex, ArrayList<Vertice> neighbors) {
+        ArrayList<Vertice> notNeighbors = new ArrayList();
+
+        for (int i = 0; i < allVertex.size(); i++) {
+            if (!neighbors.contains(allVertex.get(i))) {
+                notNeighbors.add(allVertex.get(i));
+            }
+        }
+
+        return notNeighbors;
+    }
+
+    public ArrayList<ArrayList<Vertice>> getIndependentSets() {
+        ArrayList<ArrayList<Vertice>> retorno = new ArrayList();
+        ArrayList<Vertice> allVertex = this.getTodosVertices();
+        ArrayList<Vertice> notNeighbors = new ArrayList();
+
+        for (int i = 0; i < allVertex.size(); i++) {
+            if (allVertex.get(i).getAristas().size() > 0) {
+                notNeighbors = this.getNotNeighbors(allVertex, allVertex.get(i).getNeighbors());
+                retorno.add(notNeighbors);
+            }
+        }
+        return retorno;
+    }
+    
+    public ArrayList<ArrayList<Vertice>> getAllVertexNeighbors(){
+            ArrayList<ArrayList<Vertice>> lista = new ArrayList();
+            lista.add(this.verticePrincipal.getNeighborsAndMe());
+            
+            for(int i = 0; i < this.todosVertices.size(); i++){
+                lista.add(this.todosVertices.get(i).getNeighborsAndMe());
+            }
+            return lista;
     }
 }
