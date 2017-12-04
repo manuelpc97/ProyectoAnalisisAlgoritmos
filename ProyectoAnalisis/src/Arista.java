@@ -14,6 +14,8 @@ public class Arista {
     int peso;
 
     public Arista() {
+        destino = new Vertice();
+        origen = new Vertice();
     }
 
     public Arista(Vertice origin, Vertice destiny, int peso) {

@@ -63,6 +63,7 @@ public class Principal extends javax.swing.JFrame {
         cb_target = new javax.swing.JComboBox<>();
         tf_peso = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        bt_TSP = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,7 +77,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 567, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Vertice");
@@ -106,6 +107,13 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setText("Peso");
 
+        bt_TSP.setText("TSP");
+        bt_TSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_TSPMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,12 +136,14 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addGap(37, 37, 37)
                                 .addComponent(bt_addVertex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cb_source, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cb_target, 0, 118, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bt_TSP)
+                                    .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(19, 19, 19))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -170,6 +180,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cb_target, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(82, 82, 82)
+                .addComponent(bt_TSP)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -187,6 +199,7 @@ public class Principal extends javax.swing.JFrame {
         vertexNames = new ArrayList();
         myGraph = new Grafo();
         this.jInternalFrame1.getContentPane().add(component);
+        this.repaint();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void bt_addVertexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_addVertexMouseClicked
@@ -194,13 +207,13 @@ public class Principal extends javax.swing.JFrame {
         if (validVertexName(this.tf_vertexName.getText())) {
             component.getGraph().getModel().beginUpdate();
             try {
-                Object v1 = component.getGraph().insertVertex(parent, this.tf_vertexName.getText(), this.tf_vertexName.getText(), 
+                Object v1 = component.getGraph().insertVertex(parent, this.tf_vertexName.getText(), this.tf_vertexName.getText(),
                         generatePosition(400), generatePosition(400), 80, 30);
                 vertexList.add(v1);
                 vertexNames.add(this.tf_vertexName.getText());
-                if(vertexList.size() == 1){
+                if (vertexList.size() == 1) {
                     myGraph.setVerticePrincipal(new Vertice(this.tf_vertexName.getText()));
-                }else{
+                } else {
                     myGraph.addVertice(this.tf_vertexName.getText());
                 }
                 JOptionPane.showMessageDialog(this, "Vertice Creado", "Exito", JOptionPane.PLAIN_MESSAGE);
@@ -209,7 +222,7 @@ public class Principal extends javax.swing.JFrame {
                 component.getGraph().getModel().endUpdate();
                 updateBoxes();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "No se puede agregar el vertice", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -226,8 +239,8 @@ public class Principal extends javax.swing.JFrame {
                 Object edge = component.getGraph().insertEdge(parent, this.tf_peso.getText(), this.tf_peso.getText(), source, target);
                 edges.add(edge);
                 myEdge = new Arista(myGraph.getVertexByValue(source.getValue().toString()), myGraph.getVertexByValue(target.getValue().toString()),
-                                    Integer.parseInt(this.tf_peso.getText()));
-                myGraph.addEdge(myGraph.getVertexByValue(source.getValue().toString()),myEdge);
+                        Integer.parseInt(this.tf_peso.getText()));
+                myGraph.addEdge(myGraph.getVertexByValue(source.getValue().toString()), myEdge);
             } finally {
                 component.getGraph().getModel().endUpdate();
                 JOptionPane.showMessageDialog(this, "Arista Creada", "Exito", JOptionPane.PLAIN_MESSAGE);
@@ -236,6 +249,20 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se puede agregar la arista", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bt_addEdgeMouseClicked
+
+    private void bt_TSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_TSPMouseClicked
+        // TODO add your handling code here:
+        ArrayList<Vertice> path = new ArrayList();
+        if(this.applyForTSP()){
+            path = this.cheapestInsertion(this.myGraph.getVerticePrincipal());
+            for(int i = 0; i< path.size(); i++){
+                System.out.print(path.get(i).getValue().toString() + " , ");
+            }
+            System.out.println("");
+        }else{
+            JOptionPane.showMessageDialog(this, "Grafo no aplica para TSP", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bt_TSPMouseClicked
 
     public mxICell getVertexByName(String name) {
         mxICell vertex = new mxCell();
@@ -247,11 +274,11 @@ public class Principal extends javax.swing.JFrame {
         return vertex;
     }
 
-    public int generatePosition(int bound){
+    public int generatePosition(int bound) {
         Random r = new Random();
         return r.nextInt(bound) + 1;
     }
-    
+
     public boolean validVertexName(String name) {
         for (int i = 0; i < vertexNames.size(); i++) {
             if (vertexNames.get(i).equals(name)) {
@@ -279,6 +306,98 @@ public class Principal extends javax.swing.JFrame {
         }
         this.cb_source.setModel(model1);
         this.cb_target.setModel(model2);
+    }
+
+    public boolean applyForTSP() {
+        myVertex = myGraph.getTodosVertices();
+
+        for (int i = 0; i < myVertex.size(); i++) {
+            if (myVertex.get(i).getAristas().size() != myVertex.size() - 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public ArrayList<Vertice> cheapestInsertion(Vertice origin) {
+        ArrayList<Vertice> cheapestPath = new ArrayList();
+        Vertice temp = new Vertice();
+        origin.setVisited(true);
+        cheapestPath.add(origin);
+        cheapestPath.add(origin);
+        int contador = 0;
+        
+        while(cheapestPath.size() <= myVertex.size()){
+            temp = nearestVertexToPath(cheapestPath);
+            temp.setVisited(true);
+            System.out.println("Contador: " + contador);
+            System.out.println(temp.getValue().toString());
+            contador++;
+            
+            if(cheapestPath.size()<=3){
+                cheapestPath = insertVertex(1,temp,cheapestPath);
+            }else{
+                cheapestPath = insertVertex(getBestPosition(cheapestPath,temp),temp, cheapestPath);
+            }
+            System.out.println("path: " + cheapestPath.toString());
+        }
+        return cheapestPath;
+    }
+
+    public ArrayList<Vertice> insertVertex(int position, Vertice vertex, ArrayList<Vertice> path){
+        ArrayList<Vertice> retorno = new ArrayList();
+        for(int i = 0; i < position; i++){
+            retorno.add(path.get(i));
+        }
+        retorno.add(vertex);
+        
+        for(int i = position; i < path.size(); i++){
+            retorno.add(path.get(i));
+        }
+        return retorno;
+    }
+    
+    public int getBestPosition(ArrayList<Vertice> path, Vertice vertex){
+        int value = Integer.MAX_VALUE;
+        int pos = 0;
+        int currentValue = 0;
+        for(int i = 0; i < path.size()-1; i++){
+            currentValue = getValue(path.get(i),path.get(i+1),vertex);
+            if(currentValue < value){
+                value = currentValue;
+                pos = i+1;
+            }
+        }
+        return pos;
+    }
+    
+    public Vertice nearestVertexToPath(ArrayList<Vertice> path) {
+        Vertice retorno = new Vertice();
+        ArrayList<Arista> cheapestEdges = new ArrayList();
+        int value = 0;
+
+        if (path.size() == 2) {
+            retorno = path.get(0).getcheapestEdge().getDestino();
+        } else if (path.size() > 2) {
+            for(int i = 1; i < path.size(); i++){
+                cheapestEdges.add(path.get(i).getcheapestEdge());
+            }
+            
+            value = Integer.MAX_VALUE;
+            
+            for(int i = 0; i < cheapestEdges.size(); i++){
+                if(cheapestEdges.get(i).getPeso() < value){
+                    value = cheapestEdges.get(i).getPeso();
+                    retorno = cheapestEdges.get(i).getDestino();
+                }
+            }
+        }
+        System.out.println("Retornando " + retorno.getValue().toString());
+        return retorno;
+    }
+    
+    public int getValue(Vertice left, Vertice right, Vertice middle){
+        return left.getDistance(middle) + middle.getDistance(right) - left.getDistance(right);
     }
 
     /**
@@ -317,6 +436,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_TSP;
     private javax.swing.JButton bt_addEdge;
     private javax.swing.JButton bt_addVertex;
     private javax.swing.JComboBox<String> cb_source;
@@ -336,6 +456,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<String> vertexNames;
     ArrayList<Object> edges;
     Grafo myGraph = new Grafo();
-    Vertice myVertex = new Vertice();
     Arista myEdge = new Arista();
+    ArrayList<Vertice> myVertex = new ArrayList();
+
 }

@@ -123,7 +123,7 @@ public class Grafo {
         }
     }
     
-    public Vertice getVertexByValue(Object toCompare){
+    public Vertice getVertexByValue(String toCompare){
         if(this.verticePrincipal.getValue().toString().equals(toCompare)){
             return verticePrincipal;
         }else{
