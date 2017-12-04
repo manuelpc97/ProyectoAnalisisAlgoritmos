@@ -554,5 +554,4 @@ public class Principal extends javax.swing.JFrame {
     Grafo myGraph = new Grafo();
     Arista myEdge = new Arista();
     ArrayList<Vertice> myVertex = new ArrayList();
-    Grafo complemento = new Grafo();
 }
