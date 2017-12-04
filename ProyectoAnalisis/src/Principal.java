@@ -64,6 +64,7 @@ public class Principal extends javax.swing.JFrame {
         tf_peso = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         bt_TSP = new javax.swing.JButton();
+        cb_TSP = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +78,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
+            .addGap(0, 587, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Vertice");
@@ -138,8 +139,9 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(bt_addVertex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cb_source, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cb_target, 0, 118, Short.MAX_VALUE))
+                                    .addComponent(cb_source, 0, 118, Short.MAX_VALUE)
+                                    .addComponent(cb_target, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cb_TSP, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bt_TSP)
@@ -181,7 +183,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(cb_target, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82)
-                .addComponent(bt_TSP)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_TSP)
+                    .addComponent(cb_TSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,8 +257,11 @@ public class Principal extends javax.swing.JFrame {
     private void bt_TSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_TSPMouseClicked
         // TODO add your handling code here:
         ArrayList<Vertice> path = new ArrayList();
+        Vertice vertex = new Vertice();
+        vertex = myGraph.getVertexByValue(this.cb_TSP.getSelectedItem().toString());
+        
         if(this.applyForTSP()){
-            path = this.cheapestInsertion(this.myGraph.getVerticePrincipal());
+            path = this.cheapestInsertion(vertex);
             for(int i = 0; i< path.size(); i++){
                 System.out.print(path.get(i).getValue().toString() + " , ");
             }
@@ -300,12 +307,17 @@ public class Principal extends javax.swing.JFrame {
     public void updateBoxes() {
         DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel();
         DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model3 = new DefaultComboBoxModel();
+        
         for (int i = 0; i < vertexNames.size(); i++) {
             model1.addElement(vertexNames.get(i));
             model2.addElement(vertexNames.get(i));
+            model3.addElement(vertexNames.get(i));
         }
+        
         this.cb_source.setModel(model1);
         this.cb_target.setModel(model2);
+        this.cb_TSP.setModel(model3);
     }
 
     public boolean applyForTSP() {
@@ -325,21 +337,16 @@ public class Principal extends javax.swing.JFrame {
         origin.setVisited(true);
         cheapestPath.add(origin);
         cheapestPath.add(origin);
-        int contador = 0;
         
         while(cheapestPath.size() <= myVertex.size()){
             temp = nearestVertexToPath(cheapestPath);
             temp.setVisited(true);
-            System.out.println("Contador: " + contador);
-            System.out.println(temp.getValue().toString());
-            contador++;
             
             if(cheapestPath.size()<=3){
                 cheapestPath = insertVertex(1,temp,cheapestPath);
             }else{
                 cheapestPath = insertVertex(getBestPosition(cheapestPath,temp),temp, cheapestPath);
             }
-            System.out.println("path: " + cheapestPath.toString());
         }
         return cheapestPath;
     }
@@ -392,7 +399,6 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println("Retornando " + retorno.getValue().toString());
         return retorno;
     }
     
@@ -439,6 +445,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_TSP;
     private javax.swing.JButton bt_addEdge;
     private javax.swing.JButton bt_addVertex;
+    private javax.swing.JComboBox<String> cb_TSP;
     private javax.swing.JComboBox<String> cb_source;
     private javax.swing.JComboBox<String> cb_target;
     private javax.swing.JButton jButton1;
