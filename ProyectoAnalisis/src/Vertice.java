@@ -106,6 +106,7 @@ public class Vertice {
         
         return retorno;
     }
+    
     @Override
     public String toString() {
         return value + "";

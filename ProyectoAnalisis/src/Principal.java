@@ -66,6 +66,9 @@ public class Principal extends javax.swing.JFrame {
         bt_TSP = new javax.swing.JButton();
         cb_TSP = new javax.swing.JComboBox<>();
         bt_complemento = new javax.swing.JButton();
+        bt_BronKerbosch = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,7 +82,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Vertice");
@@ -116,12 +119,23 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        bt_complemento.setText("Complemento");
+        bt_complemento.setText("Clique Fuerza Bruta");
         bt_complemento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_complementoMouseClicked(evt);
             }
         });
+
+        bt_BronKerbosch.setText("Clique Bron-Kerbosch");
+        bt_BronKerbosch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_BronKerboschMouseClicked(evt);
+            }
+        });
+
+        jLabel4.setText("TSP");
+
+        jLabel5.setText("Clique");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,7 +153,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(tf_vertexName)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(bt_addEdge, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -148,7 +162,9 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
+                                        .addComponent(bt_BronKerbosch)
+                                        .addGap(18, 18, 18)
                                         .addComponent(bt_complemento))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -158,7 +174,12 @@ public class Principal extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(bt_TSP)
-                                            .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(19, 19, 19))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -195,12 +216,18 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cb_target, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82)
+                .addGap(57, 57, 57)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_TSP)
                     .addComponent(cb_TSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addComponent(bt_complemento)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_complemento)
+                    .addComponent(bt_BronKerbosch))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -279,28 +306,30 @@ public class Principal extends javax.swing.JFrame {
         ArrayList<Vertice> path = new ArrayList();
         Vertice vertex = new Vertice();
         vertex = myGraph.getVertexByValue(this.cb_TSP.getSelectedItem().toString());
+        myVertex = myGraph.getTodosVertices();
 
-        if (this.applyForTSP()) {
-            path = this.cheapestInsertion(vertex);
-            for (int i = 0; i < path.size(); i++) {
-                System.out.print(path.get(i).getValue().toString() + " , ");
-            }
-            System.out.println("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Grafo no aplica para TSP", "Error", JOptionPane.ERROR_MESSAGE);
+        path = this.cheapestInsertion(vertex);
+        for (int i = 0; i < path.size(); i++) {
+            System.out.print(path.get(i).getValue().toString() + " , ");
         }
+        System.out.println("");
+
     }//GEN-LAST:event_bt_TSPMouseClicked
 
     private void bt_complementoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_complementoMouseClicked
         // TODO add your handling code here:
         ArrayList<ArrayList<Vertice>> cliques = this.Clique();
-
-        System.out.println("Todos los cliques");
-        for (int i = 0; i < cliques.size(); i++) {
-            System.out.println(cliques.get(i).toString());
-        }
-        System.out.println("El clique mas grande es: " + this.getMaxClique(cliques).toString());
+        ArrayList<Vertice> clique = this.getMaxClique(cliques);
+        System.out.println("El clique mas grande es: " + clique.toString());
     }//GEN-LAST:event_bt_complementoMouseClicked
+
+    private void bt_BronKerboschMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_BronKerboschMouseClicked
+        // TODO add your handling code here:
+        ArrayList<Vertice> clique = new ArrayList();
+        BronKerbosch(myGraph.getTodosVertices(), new ArrayList<Vertice>(), new ArrayList<Vertice>(),
+                clique);
+        System.out.println("Clique: " + clique.toString());
+    }//GEN-LAST:event_bt_BronKerboschMouseClicked
 
     public mxICell getVertexByName(String name) {
         mxICell vertex = new mxCell();
@@ -312,6 +341,14 @@ public class Principal extends javax.swing.JFrame {
         return vertex;
     }
 
+    public void changeVertexColor(ArrayList<Vertice> vertex){
+        ArrayList<mxICell> vertex2 = new ArrayList();
+        for(int i = 0; i < vertex.size(); i++){
+            vertex2.add(getVertexByName(vertex.get(i).getValue().toString()));
+        }
+        
+        
+    }
     public int generatePosition(int bound) {
         Random r = new Random();
         return r.nextInt(bound) + 1;
@@ -392,6 +429,7 @@ public class Principal extends javax.swing.JFrame {
         for (int i = position; i < path.size(); i++) {
             retorno.add(path.get(i));
         }
+        System.out.println(retorno.toString());
         return retorno;
     }
 
@@ -399,8 +437,12 @@ public class Principal extends javax.swing.JFrame {
         int value = Integer.MAX_VALUE;
         int pos = 0;
         int currentValue = 0;
+        
         for (int i = 0; i < path.size() - 1; i++) {
-            currentValue = getValue(path.get(i), path.get(i + 1), vertex);
+            if (myGraph.isAdyacente(path.get(i), vertex) && myGraph.isAdyacente(vertex, path.get(i + 1))) {
+                currentValue = getValue(path.get(i), path.get(i + 1), vertex);
+            }
+            
             if (currentValue < value) {
                 value = currentValue;
                 pos = i + 1;
@@ -415,10 +457,13 @@ public class Principal extends javax.swing.JFrame {
         int value = 0;
 
         if (path.size() == 2) {
+
             retorno = path.get(0).getcheapestEdge().getDestino();
         } else if (path.size() > 2) {
             for (int i = 1; i < path.size(); i++) {
-                cheapestEdges.add(path.get(i).getcheapestEdge());
+                if (path.get(i).getNonVisitedEdges().size() > 0) {
+                    cheapestEdges.add(path.get(i).getcheapestEdge());
+                }
             }
 
             value = Integer.MAX_VALUE;
@@ -494,6 +539,45 @@ public class Principal extends javax.swing.JFrame {
         return retorno;
     }
 
+    public void BronKerbosch(ArrayList<Vertice> P, ArrayList<Vertice> R, ArrayList<Vertice> X, ArrayList<Vertice> clique) {
+        if (P.size() + X.size() == 0) {
+            if (R.size() > clique.size()) {
+                clique.clear();
+                for (int i = 0; i < R.size(); i++) {
+                    clique.add(R.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < P.size(); i++) {
+                BronKerbosch(getInterception(P, P.get(i).getNeighbors()), getUnion(R, P.get(i)), getInterception(X, P.get(i).getNeighbors()), clique);
+                X.add(P.get(i));
+                P.remove(P.get(i));
+            }
+        }
+    }
+
+    public ArrayList<Vertice> getUnion(ArrayList<Vertice> set, Vertice vertex) {
+        ArrayList<Vertice> retorno = new ArrayList();
+        for (int i = 0; i < set.size(); i++) {
+            retorno.add(set.get(i));
+        }
+        retorno.add(vertex);
+        return retorno;
+    }
+
+    public ArrayList<Vertice> getInterception(ArrayList<Vertice> set1, ArrayList<Vertice> set2) {
+        ArrayList<Vertice> interception = new ArrayList();
+
+        for (int i = 0; i < set1.size(); i++) {
+            for (int k = 0; k < set2.size(); k++) {
+                if (set1.get(i).equals(set2.get(k))) {
+                    interception.add(set1.get(i));
+                }
+            }
+        }
+        return interception;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -530,6 +614,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_BronKerbosch;
     private javax.swing.JButton bt_TSP;
     private javax.swing.JButton bt_addEdge;
     private javax.swing.JButton bt_addVertex;
@@ -542,6 +627,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField tf_peso;
     private javax.swing.JTextField tf_vertexName;
     // End of variables declaration//GEN-END:variables
