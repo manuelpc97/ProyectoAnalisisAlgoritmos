@@ -52,22 +52,23 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="bt_complemento" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="cb_source" pref="118" max="32767" attributes="0"/>
                                           <Component id="cb_target" max="32767" attributes="0"/>
-                                          <Component id="cb_TSP" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="bt_TSP" min="-2" max="-2" attributes="0"/>
-                                          <Component id="tf_peso" min="-2" pref="68" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="tf_peso" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                              <Component id="bt_TSP" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
@@ -125,10 +126,7 @@
               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bt_TSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cb_TSP" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="bt_TSP" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -155,7 +153,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="635" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="659" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -225,21 +223,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="bt_TSP">
       <Properties>
-        <Property name="text" type="java.lang.String" value="TSP"/>
+        <Property name="text" type="java.lang.String" value="Coloreabilidad"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bt_TSPMouseClicked"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cb_TSP">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="bt_complemento">
       <Properties>
@@ -259,7 +247,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="TSP"/>
+        <Property name="text" type="java.lang.String" value="Coloreabilidad"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">

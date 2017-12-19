@@ -52,6 +52,10 @@ public class Vertice {
         this.visited = visited;
     }
 
+    public int getGrade(){
+        return this.aristas.size();
+    }
+    
     public int getDistance(Vertice destiny) {
         for (int i = 0; i < this.aristas.size(); i++) {
             if (destiny.equals(this.aristas.get(i).getDestino())) {

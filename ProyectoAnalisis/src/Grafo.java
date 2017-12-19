@@ -110,16 +110,30 @@ public class Grafo {
     }
 
     public void removeVertex(Vertice borrar) {
-        if (verificarExistencia(borrar)) {
-            for (int i = 0; i < this.todosVertices.size(); i++) {
-                for (int k = 0; k < ((Vertice) this.todosVertices.get(i)).getAristas().size(); i++) {
-                    if (((Arista) ((Vertice) this.todosVertices.get(i)).getAristas().get(k)).getDestino() == borrar) {
-                        ((Vertice) this.todosVertices.get(i)).getAristas().remove(k);
-                    }
+
+        for (int i = 0; i < this.verticePrincipal.aristas.size(); i++) {
+            if (((Arista) ((Vertice) this.verticePrincipal).getAristas().get(i)).getDestino().equals(borrar)) {
+                ((Vertice) this.verticePrincipal).getAristas().remove(i);
+            }
+        }
+
+        if (this.verticePrincipal.equals(borrar)) {
+            if (this.todosVertices.size() > 0) {
+                this.verticePrincipal = this.todosVertices.get(0);
+                this.todosVertices.remove(0);
+            } else {
+                this.verticePrincipal = new Vertice("-1");
+            }
+        }
+
+        for (int i = 0; i < this.todosVertices.size(); i++) {
+            for (int k = 0; k < ((Vertice) this.todosVertices.get(i)).getAristas().size(); k++) {
+                if (((Arista) ((Vertice) this.todosVertices.get(i)).getAristas().get(k)).getDestino().equals(borrar)) {
+                    ((Vertice) this.todosVertices.get(i)).getAristas().remove(k);
                 }
-                if (this.todosVertices.get(i) == borrar) {
-                    this.todosVertices.remove(i);
-                }
+            }
+            if (this.todosVertices.get(i).equals(borrar)) {
+                this.todosVertices.remove(i);
             }
         }
     }
@@ -137,13 +151,73 @@ public class Grafo {
         return new Vertice(-1);
     }
 
-    public ArrayList<ArrayList<Vertice>> getAllVertexNeighbors(){
-            ArrayList<ArrayList<Vertice>> lista = new ArrayList();
-            lista.add(this.verticePrincipal.getNeighborsAndMe());
-            
-            for(int i = 0; i < this.todosVertices.size(); i++){
-                lista.add(this.todosVertices.get(i).getNeighborsAndMe());
+    public ArrayList<ArrayList<Vertice>> getAllVertexNeighbors() {
+        ArrayList<ArrayList<Vertice>> lista = new ArrayList();
+        lista.add(this.verticePrincipal.getNeighborsAndMe());
+
+        for (int i = 0; i < this.todosVertices.size(); i++) {
+            lista.add(this.todosVertices.get(i).getNeighborsAndMe());
+        }
+        return lista;
+    }
+
+    public Grafo getCopy() {
+        Grafo copy = new Grafo();
+        copy.setVerticePrincipal(new Vertice(this.verticePrincipal.getValue().toString()));
+
+        for (int i = 0; i < this.todosVertices.size(); i++) {
+            copy.todosVertices.add(new Vertice(this.todosVertices.get(i).getValue().toString()));
+        }
+
+        ArrayList<Vertice> originalVertex = this.getTodosVertices();
+        ArrayList<Vertice> copyVertex = copy.getTodosVertices();
+        Arista temp = new Arista();
+        String value = "";
+
+        for (int i = 0; i < originalVertex.size(); i++) {
+            for (int k = 0; k < originalVertex.get(i).aristas.size(); k++) {
+                value = originalVertex.get(i).aristas.get(k).getDestino().getValue().toString();
+                temp = new Arista(copyVertex.get(i), copy.getVertexByValue(value), originalVertex.get(i).aristas.get(k).getPeso());
+                copy.addEdge(copyVertex.get(i), temp);
             }
-            return lista;
+        }
+
+        return copy;
+    }
+
+    public ArrayList<Vertice> getOrderedVertex() {
+        ArrayList<Vertice> ordered = new ArrayList<Vertice>();
+        ArrayList<Vertice> disordered = this.getTodosVertices();
+
+        for (int i = 0; i < disordered.size(); i++) {
+            ordered = insertVertex(ordered, disordered.get(i), findPosition(disordered.get(i), ordered));
+        }
+        return ordered;
+    }
+
+    public int findPosition(Vertice toInsert, ArrayList<Vertice> ordered) {
+        for (int i = 0; i < ordered.size(); i++) {
+            if (ordered.get(i).getGrade() > toInsert.getGrade()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Vertice> insertVertex(ArrayList<Vertice> ordered, Vertice toInsert, int position) {
+        ArrayList<Vertice> toReturn = new ArrayList();
+        if (position == -1) {
+            ordered.add(toInsert);
+            return ordered;
+        } else {
+            for (int i = 0; i < position; i++) {
+                toReturn.add(ordered.get(i));
+            }
+            toReturn.add(toInsert);
+            for (int i = position; i < ordered.size(); i++) {
+                toReturn.add(ordered.get(i));
+            }
+        }
+        return toReturn;
     }
 }

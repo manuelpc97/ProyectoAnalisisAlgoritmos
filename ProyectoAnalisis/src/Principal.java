@@ -64,7 +64,6 @@ public class Principal extends javax.swing.JFrame {
         tf_peso = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         bt_TSP = new javax.swing.JButton();
-        cb_TSP = new javax.swing.JComboBox<>();
         bt_complemento = new javax.swing.JButton();
         bt_BronKerbosch = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -82,7 +81,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
+            .addGap(0, 659, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Vertice");
@@ -112,7 +111,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setText("Peso");
 
-        bt_TSP.setText("TSP");
+        bt_TSP.setText("Coloreabilidad");
         bt_TSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_TSPMouseClicked(evt);
@@ -133,7 +132,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("TSP");
+        jLabel4.setText("Coloreabilidad");
 
         jLabel5.setText("Clique");
 
@@ -166,19 +165,20 @@ public class Principal extends javax.swing.JFrame {
                                         .addComponent(bt_BronKerbosch)
                                         .addGap(18, 18, 18)
                                         .addComponent(bt_complemento))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(cb_source, 0, 118, Short.MAX_VALUE)
-                                            .addComponent(cb_target, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cb_TSP, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(cb_target, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(bt_TSP)
-                                            .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(bt_TSP)))
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(19, 19, 19))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -219,9 +219,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_TSP)
-                    .addComponent(cb_TSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(bt_TSP)
                 .addGap(25, 25, 25)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -302,18 +300,15 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_addEdgeMouseClicked
 
     private void bt_TSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_TSPMouseClicked
-        // TODO add your handling code here:
-        ArrayList<Vertice> path = new ArrayList();
-        Vertice vertex = new Vertice();
-        vertex = myGraph.getVertexByValue(this.cb_TSP.getSelectedItem().toString());
-        myVertex = myGraph.getTodosVertices();
-
-        path = this.cheapestInsertion(vertex);
-        for (int i = 0; i < path.size(); i++) {
-            System.out.print(path.get(i).getValue().toString() + " , ");
-        }
-        System.out.println("");
-
+         //TODO add your handling code here:
+       ArrayList<ArrayList<Vertice>> allIS = new ArrayList();
+       
+       this.getAllIndependentSets(myGraph.getCopy(), allIS);
+       
+       for(int i = 0; i < allIS.size(); i++){
+           System.out.println(allIS.get(i).toString());
+       }
+        System.out.println("Se necesitan: " + allIS.size() + " colores");
     }//GEN-LAST:event_bt_TSPMouseClicked
 
     private void bt_complementoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_complementoMouseClicked
@@ -341,14 +336,6 @@ public class Principal extends javax.swing.JFrame {
         return vertex;
     }
 
-    public void changeVertexColor(ArrayList<Vertice> vertex){
-        ArrayList<mxICell> vertex2 = new ArrayList();
-        for(int i = 0; i < vertex.size(); i++){
-            vertex2.add(getVertexByName(vertex.get(i).getValue().toString()));
-        }
-        
-        
-    }
     public int generatePosition(int bound) {
         Random r = new Random();
         return r.nextInt(bound) + 1;
@@ -375,111 +362,14 @@ public class Principal extends javax.swing.JFrame {
     public void updateBoxes() {
         DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel();
         DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel();
-        DefaultComboBoxModel<String> model3 = new DefaultComboBoxModel();
 
         for (int i = 0; i < vertexNames.size(); i++) {
             model1.addElement(vertexNames.get(i));
             model2.addElement(vertexNames.get(i));
-            model3.addElement(vertexNames.get(i));
         }
 
         this.cb_source.setModel(model1);
         this.cb_target.setModel(model2);
-        this.cb_TSP.setModel(model3);
-    }
-
-    public boolean applyForTSP() {
-        myVertex = myGraph.getTodosVertices();
-
-        for (int i = 0; i < myVertex.size(); i++) {
-            if (myVertex.get(i).getAristas().size() != myVertex.size() - 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ArrayList<Vertice> cheapestInsertion(Vertice origin) {
-        ArrayList<Vertice> cheapestPath = new ArrayList();
-        Vertice temp = new Vertice();
-        origin.setVisited(true);
-        cheapestPath.add(origin);
-        cheapestPath.add(origin);
-
-        while (cheapestPath.size() <= myVertex.size()) {
-            temp = nearestVertexToPath(cheapestPath);
-            temp.setVisited(true);
-
-            if (cheapestPath.size() <= 3) {
-                cheapestPath = insertVertex(1, temp, cheapestPath);
-            } else {
-                cheapestPath = insertVertex(getBestPosition(cheapestPath, temp), temp, cheapestPath);
-            }
-        }
-        return cheapestPath;
-    }
-
-    public ArrayList<Vertice> insertVertex(int position, Vertice vertex, ArrayList<Vertice> path) {
-        ArrayList<Vertice> retorno = new ArrayList();
-        for (int i = 0; i < position; i++) {
-            retorno.add(path.get(i));
-        }
-        retorno.add(vertex);
-
-        for (int i = position; i < path.size(); i++) {
-            retorno.add(path.get(i));
-        }
-        System.out.println(retorno.toString());
-        return retorno;
-    }
-
-    public int getBestPosition(ArrayList<Vertice> path, Vertice vertex) {
-        int value = Integer.MAX_VALUE;
-        int pos = 0;
-        int currentValue = 0;
-        
-        for (int i = 0; i < path.size() - 1; i++) {
-            if (myGraph.isAdyacente(path.get(i), vertex) && myGraph.isAdyacente(vertex, path.get(i + 1))) {
-                currentValue = getValue(path.get(i), path.get(i + 1), vertex);
-            }
-            
-            if (currentValue < value) {
-                value = currentValue;
-                pos = i + 1;
-            }
-        }
-        return pos;
-    }
-
-    public Vertice nearestVertexToPath(ArrayList<Vertice> path) {
-        Vertice retorno = new Vertice();
-        ArrayList<Arista> cheapestEdges = new ArrayList();
-        int value = 0;
-
-        if (path.size() == 2) {
-
-            retorno = path.get(0).getcheapestEdge().getDestino();
-        } else if (path.size() > 2) {
-            for (int i = 1; i < path.size(); i++) {
-                if (path.get(i).getNonVisitedEdges().size() > 0) {
-                    cheapestEdges.add(path.get(i).getcheapestEdge());
-                }
-            }
-
-            value = Integer.MAX_VALUE;
-
-            for (int i = 0; i < cheapestEdges.size(); i++) {
-                if (cheapestEdges.get(i).getPeso() < value) {
-                    value = cheapestEdges.get(i).getPeso();
-                    retorno = cheapestEdges.get(i).getDestino();
-                }
-            }
-        }
-        return retorno;
-    }
-
-    public int getValue(Vertice left, Vertice right, Vertice middle) {
-        return left.getDistance(middle) + middle.getDistance(right) - left.getDistance(right);
     }
 
     public ArrayList<ArrayList<Vertice>> Clique() {
@@ -578,6 +468,37 @@ public class Principal extends javax.swing.JFrame {
         return interception;
     }
 
+    public void getIndependentSet(Grafo copy1, ArrayList<Vertice> independentSet) {
+        if (copy1.verticePrincipal.getValue().toString().equals("-1")) {
+            return;
+        } else {
+            ArrayList<Vertice> ordered = copy1.getOrderedVertex();
+            ArrayList<Vertice> myNeighbors = ordered.get(0).getNeighborsAndMe();
+            independentSet.add(ordered.get(0));
+
+            for (int i = 0; i < myNeighbors.size(); i++) {
+                copy1.removeVertex(myNeighbors.get(i));
+            }
+            
+            getIndependentSet(copy1, independentSet);
+        }
+    }
+
+    public void getAllIndependentSets(Grafo copy, ArrayList<ArrayList<Vertice>> allIS) {
+        if (copy.verticePrincipal.getValue().toString().equals("-1")) {
+            return;
+        } else {
+            ArrayList<Vertice> independentSet = new ArrayList();
+            this.getIndependentSet(copy.getCopy(), independentSet);
+            allIS.add(independentSet);
+            
+            for (int i = 0; i < independentSet.size(); i++) {
+                copy.removeVertex(copy.getVertexByValue(independentSet.get(i).value.toString()));
+            }
+            this.getAllIndependentSets(copy, allIS);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -619,7 +540,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_addEdge;
     private javax.swing.JButton bt_addVertex;
     private javax.swing.JButton bt_complemento;
-    private javax.swing.JComboBox<String> cb_TSP;
     private javax.swing.JComboBox<String> cb_source;
     private javax.swing.JComboBox<String> cb_target;
     private javax.swing.JButton jButton1;
