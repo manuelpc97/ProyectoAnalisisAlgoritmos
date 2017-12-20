@@ -59,6 +59,9 @@ public class Principal extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel1 = new javax.swing.JLabel();
         tf_vertexName = new javax.swing.JTextField();
@@ -92,23 +95,46 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Valor ");
+        jLabel6.setText("Peso");
 
         jLabel7.setText("Valor ");
+
+        jButton5.setText("Ejecutar Algoritmo");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+
+        jLabel9.setText("Limite");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jLabel6)
-                .addGap(53, 53, 53)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jButton5))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9))
+                        .addGap(46, 46, 46)
+                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton3)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField4))))
+                .addContainerGap(125, Short.MAX_VALUE))
             .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialog1Layout.createSequentialGroup()
                     .addGap(80, 80, 80)
@@ -120,13 +146,19 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addComponent(jButton3)
-                .addGap(144, 144, 144))
+                .addGap(59, 59, 59)
+                .addComponent(jButton5)
+                .addGap(60, 60, 60))
             .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialog1Layout.createSequentialGroup()
                     .addGap(117, 117, 117)
@@ -403,7 +435,23 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_BronKerboschMouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        colorVertex(getVertex(myGraph.getTodosVertices()));
+          ArrayList<ArrayList<Vertice>> arreglos=new   ArrayList<ArrayList<Vertice>> ();
+         int menor=10000;
+           int pos=0;
+        for (int i = 0; i < 10000; i++) {
+            ArrayList<Vertice> pepe=new ArrayList<Vertice>();
+            pepe=getVertex(myGraph.getTodosVertices());
+            if(pepe.size()<menor){
+                pos=i;
+                menor=pepe.size();
+            }
+           arreglos.add(pepe);
+        }
+        for (int i = 0; i < arreglos.get(pos).size(); i++) {
+            System.out.println("slajdfjadhjhasjlbshfbshbvjncbhvbjbjsbcjvjsdvbs");
+            System.out.println(arreglos.get(pos).get(i).value);
+        }
+        colorVertex(arreglos.get(pos));
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -423,10 +471,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
+        
         this.jDialog1.pack();
         this.jDialog1.setLocationRelativeTo(this);
         this.jDialog1.setVisible(true);
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        this.snapsonnovios();
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
     public void colorVertex(ArrayList<Vertice> list) {
         for (int i = 0; i < list.size(); i++) {
@@ -673,13 +730,14 @@ public class Principal extends javax.swing.JFrame {
             cont++;
         }
         for (int i = 0; i < arreglo2.length; i++) {
-            System.out.println(pesos2[i] + "  ,  " + arreglo2[i]);
+            String pal=("Peso "+pesos2[i] + "  ,  "+"Indice  " + arreglo2[i])+ '\n';
         }
         System.out.println("");
         System.out.println("");
+        
 
         bandera = 0;
-        int limite = 30;
+        int limite = Integer.parseInt(this.jTextField4.getText());
         int acumulador = 0;
         int contador = 0;
         int contador2 = 0;
@@ -687,8 +745,13 @@ public class Principal extends javax.swing.JFrame {
         ArrayList<nodo> nodes = new ArrayList<nodo>();
 
         while (acumulador <= limite) {
+            if(contador>=pesos2.length){
+                  JOptionPane.showMessageDialog(null,"no hay nodos suficientes");
+                  return null;
+            }
             actual = pesos2[contador];
             acumulador = acumulador + actual;
+            
             nodo n = new nodo(actual, arreglo2[contador] * actual);
             contador++;
             if (acumulador <= limite) {
@@ -696,36 +759,13 @@ public class Principal extends javax.swing.JFrame {
             }
 
         }
-
-        /*
-             acumulador = acumulador - actual;
-              if (acumulador == limite || (acumulador + pesos2[pesos2.length - 1]) > limite) {
-                  
-            } else{
-                   contador2 = contador2 - 1;
-              }
-              
-                if(contador2==0){
-                    contador2++;
-                }
-                nodo n = new nodo(actual, contador2);
-                contador++;
-            if (acumulador == limite || (acumulador + pesos2[pesos2.length - 1]) > limite) {
-                bandera = 1;
-                break;
-            } 
-               
-             
-                contador2 = 0;
-                nodes.add(n);
-            
-        }
-
-         */
+        String pal="";
         for (nodo node : nodes) {
+             pal=pal+("Peso "+node.getValor()+ "  ,  "+"Valor " + node.getPeso())+ '\n';
             System.out.print(node.getValor() + " , " + node.getPeso());
             System.out.println("");
         }
+        JOptionPane.showMessageDialog(null,pal);
         return nodes;
     }
 
@@ -771,7 +811,6 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(numero);
                 for (int i = 0; i < arreglo.length; i++) {
                     if (arreglo[i] == numero) {
-                        //System.out.println("llllllllllllllllllllllllllll");
                         bandera1 = 1;
                     }
                 }
@@ -781,43 +820,18 @@ public class Principal extends javax.swing.JFrame {
                 } else {
                     arreglo[cont] = numero;
                     cont++;
-                    //System.out.println("dddddddddddddddd");
-
                     break;
 
                 }
-                //System.out.println("xxxxxxxxxxxxxxxxx");
+              
             }
             System.out.println("");
-
-            /*   sou
-            for (Arista arista : vertices.get(numero).aristas) {
-                for (Arista arista1 : aristas) {
-                    if (arista == arista1) {
-                        aristas.remove(arista);
-                    }
-                } 
-            }
-             */
             for (Arista i : vertices.get(numero).getAristas()) {
                 System.out.println("ffffffffff");
             }
             int num2 = 0;
             int num = 0;
             for (int i = 0; i < vertices.get(numero).aristas.size(); i++) {
-                /*
-                for (int j = 0; j < aristas.size(); j++) {
-                  
-                   
-                    if (vertices.get(numero).aristas.get(i)== aristas.get(j)) {
-                        System.out.println();
-                        temporalaristas.remove(vertices.get(numero).aristas.get(i));
-                        temporalaristas.remove(aristas.get(num2));
-                         System.out.println("s");
-                    } 
-                   
-                }
-                 */
                 Vertice destino = new Vertice();
                 destino = vertices.get(numero).aristas.get(i).destino;
                 for (int k = 0; k < aristas.size(); k++) {
@@ -852,6 +866,9 @@ public class Principal extends javax.swing.JFrame {
         }
         for (int i = 0; i < arreglo.length; i++) {
             System.out.println(arreglo[i]);
+        }
+         for (int i = 0; i < aristas.size(); i++) {
+            aristas.get(i).eliminado=1;
         }
         return temporal;
     }
@@ -904,6 +921,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
@@ -914,8 +932,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField tf_vertexName;
     // End of variables declaration//GEN-END:variables
     Graph grafo;
